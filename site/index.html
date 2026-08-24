@@ -18,7 +18,7 @@
       <nav class="site-nav">
         <a href="#how-it-works">How it works</a>
         <a href="#stack">Protocol</a>
-        <a class="btn btn-primary" href="demo/index.html">Try the demo</a>
+        <a class="btn btn-primary" href="#waitlist">Join the waitlist</a>
       </nav>
     </div>
   </header>
@@ -31,11 +31,26 @@
         Authorize a merchant once, with a hard limit on amount, recipient, and frequency. Renewals happen
         without you — and cancelling is one click, from your own wallet, with immediate effect.
       </p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="demo/index.html">Try the interactive demo</a>
-        <a class="btn btn-ghost" href="https://github.com/elitelephant/cevolta" target="_blank" rel="noopener">See the code</a>
-      </div>
-      <p class="trust-note">Runs on Stellar Testnet — no real funds are ever used.</p>
+      <form class="waitlist-form" id="waitlist" novalidate>
+        <div class="waitlist-honeypot" aria-hidden="true">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+        </div>
+        <input
+          class="waitlist-input"
+          type="email"
+          id="waitlist-email"
+          name="email"
+          placeholder="you@business.com"
+          aria-label="Email address"
+          required
+        />
+        <button class="btn btn-primary" type="submit">Join the waitlist</button>
+      </form>
+      <p class="trust-note" id="waitlist-status">
+        One email when Cevolta opens on Testnet — no spam.
+        <a href="https://github.com/elitelephant/cevolta" target="_blank" rel="noopener">See the code</a>
+      </p>
     </div>
   </section>
 
@@ -74,14 +89,17 @@
       </p>
       <div class="grid-3">
         <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
           <h3>You set the limit once</h3>
           <p>Amount, recipient, and cadence — enforced by your own wallet, not by the merchant's word.</p>
         </div>
         <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-4M4 13a8 8 0 0 0 14.9 4"/><path d="M5 3v4h4M19 21v-4h-4"/></svg></div>
           <h3>Renewals need no signature</h3>
           <p>An off-chain trigger asks your wallet to charge on schedule. Your Policy Signer allows or rejects it — no human in the loop.</p>
         </div>
         <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7Z"/></svg></div>
           <h3>Cancel is instant and yours</h3>
           <p>One action, from your own wallet, shuts off future charges atomically. No ticket, no approval, no waiting.</p>
         </div>
@@ -163,10 +181,22 @@
         A Soroban protocol on Stellar Testnet, built on audited primitives instead of custom cryptography.
       </p>
       <div class="grid-4">
-        <div class="card"><h3>Soroban</h3><p>Smart contracts for the Subscription Registry.</p></div>
-        <div class="card"><h3>smart-account-kit</h3><p>Audited account contract that enforces your spending rules — no custom cryptography.</p></div>
-        <div class="card"><h3>SEP-41</h3><p>Standard token interface — USDC on Testnet for now.</p></div>
-        <div class="card"><h3>Passkeys</h3><p>WebAuthn sign-in, no seed phrase to lose.</p></div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 4 12l5 8M15 4l5 8-5 8"/></svg></div>
+          <h3>Soroban</h3><p>Smart contracts for the Subscription Registry.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/></svg></div>
+          <h3>smart-account-kit</h3><p>Audited account contract that enforces your spending rules — no custom cryptography.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>SEP-41</h3><p>Standard token interface — USDC on Testnet for now.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="4"/><path d="M11 11l9 9M17 14l3 3M14 17l2 2"/></svg></div>
+          <h3>Passkeys</h3><p>WebAuthn sign-in, no seed phrase to lose.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -177,10 +207,12 @@
       <span>
         <a href="https://github.com/elitelephant/cevolta" target="_blank" rel="noopener">GitHub</a>
         &nbsp;·&nbsp;
-        <a href="demo/index.html">Demo</a>
+        <a href="#waitlist">Join the waitlist</a>
       </span>
     </div>
   </footer>
 
+  <script src="assets/waitlist.js"></script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
