@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cevolta — Recurring payments that live in your wallet",
+  title: "Cevolta: Recurring payments that live in your wallet",
   description:
     "Set an amount, a recipient, and a schedule in your own wallet. Cevolta: non-custodial recurring payments on Stellar.",
 };

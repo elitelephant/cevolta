@@ -6,13 +6,13 @@ See the domain and architecture decisions in [`CONTEXT.md`](./CONTEXT.md) and [`
 
 ## Status
 
-Idea validated with a landing page. The Soroban contract (Subscription Registry) and the Testnet-connected interfaces are under construction — see [`docs`](./docs).
+Idea validated with a landing page. The Soroban contract (Subscription Registry) and the Testnet-connected interfaces are under construction; see [`docs`](./docs).
 
 ## Structure
 
-- `site/` — landing page + waitlist, a Next.js app in its own small Turborepo (deployed on Vercel)
-- `docs/` — domain glossary, ADRs, agent notes
-- `CONTEXT.md` — domain terminology glossary
+- `site/`: landing page + waitlist, a Next.js app in its own small Turborepo (deployed on Vercel)
+- `docs/`: domain glossary, ADRs, agent notes
+- `CONTEXT.md`: domain terminology glossary
 
 ## Landing page
 

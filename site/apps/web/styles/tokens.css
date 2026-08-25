@@ -132,7 +132,7 @@
   --ease-standard: ease;
 }
 
-/* Compact tier — short viewports (small laptops) tighten vertical rhythm */
+/* Compact tier: tightens vertical rhythm on short viewports (small laptops) */
 @media (max-height: 820px) {
   :root {
     --fs-h1: clamp(2rem, 5vw, 3.4rem);

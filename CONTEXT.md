@@ -1,6 +1,6 @@
-# Stellar Recurring Subscriptions
+# Stellar Recurring Payments
 
-Non-custodial recurring-subscription protocol on Stellar where charge authorization lives in the Subscriber's own wallet, not with the Merchant or the protocol.
+Non-custodial recurring-payments protocol on Stellar where charge authorization lives in the Subscriber's own wallet, not with the Merchant or the protocol. Subscriptions are the flagship use case; the terms below name that specific instance and stay fixed regardless of how the product is marketed.
 
 ## Language
 
@@ -17,17 +17,17 @@ A Soroban contract account belonging to a Subscriber, implementing `CustomAccoun
 _Avoid_: account, wallet (bare)
 
 **Policy Signer**:
-A signer inside a Subscriber's Smart Wallet that authorizes only charges matching one Subscription's amount, recipient, and cadence — and nothing else, even if compromised.
+A signer inside a Subscriber's Smart Wallet that authorizes only charges matching one Subscription's amount, recipient, and cadence, and nothing else, even if compromised.
 _Avoid_: allowance, approval
 
 **Subscription Registry**:
-The Soroban contract that stores Merchant plans and Subscription records and triggers charge attempts. It never holds an allowance or custody of funds — only the Policy Signer actually authorizes fund movement.
+The Soroban contract that stores Merchant plans and Subscription records and triggers charge attempts. It never holds an allowance or custody of funds; only the Policy Signer actually authorizes fund movement.
 _Avoid_: subscription contract (bare), sb_subscription
 
 **Renewal Trigger**:
-The off-chain process that calls the Subscription Registry's renewal function once a Subscription's next renewal ledger is reached. It has no spending power of its own — the Policy Signer is what authorizes or rejects the charge.
+The off-chain process that calls the Subscription Registry's renewal function once a Subscription's next renewal ledger is reached. It has no spending power of its own; the Policy Signer is what authorizes or rejects the charge.
 _Avoid_: keeper, cron job (as the canonical name)
 
 **Subscription Status**:
-One of three states on a Subscription record — `active` (charges authorized, on schedule), `past_due` (last renewal attempt failed, automatic retries in progress), or `cancelled` (no further charges will be attempted).
-_Avoid_: subscription state (as a separate term — same concept)
+One of three states on a Subscription record: `active` (charges authorized, on schedule), `past_due` (last renewal attempt failed, automatic retries in progress), or `cancelled` (no further charges will be attempted).
+_Avoid_: subscription state (as a separate term, same concept)
