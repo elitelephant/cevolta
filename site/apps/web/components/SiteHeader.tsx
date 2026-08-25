@@ -9,7 +9,7 @@ export default function SiteHeader() {
           Cevolta
         </a>
         <nav className={styles.siteNav}>
-          <a className={styles.navLink} href="#for-merchants">
+          <a className={styles.navLink} href="#how-it-works">
             How it works
           </a>
           <a className={styles.navLink} href="#use-cases">

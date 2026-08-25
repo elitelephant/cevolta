@@ -1,0 +1,24 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.edge {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+}
+
+.dot {
+  fill: var(--dot-idle);
+}
+
+.dotAccent {
+  fill: var(--accent-strong);
+}

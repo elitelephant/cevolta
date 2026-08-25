@@ -3,18 +3,17 @@ export type Step = {
   description: string;
 };
 
-export type HowItWorksPanel = {
-  id: string;
-  eyebrow: string;
-  heading: string;
+export type HowItWorksColumn = {
+  title: string;
   steps: Step[];
 };
 
-export const howItWorks: HowItWorksPanel[] = [
+export const howItWorksEyebrow = "How it works";
+export const howItWorksHeading = "One rule. Money moves in, or moves out.";
+
+export const howItWorksColumns: HowItWorksColumn[] = [
   {
-    id: "for-merchants",
-    eyebrow: "How it works, for getting paid",
-    heading: "Collect recurring payments without holding custody",
+    title: "For getting paid",
     steps: [
       {
         title: "Set the rule",
@@ -31,9 +30,7 @@ export const howItWorks: HowItWorksPanel[] = [
     ],
   },
   {
-    id: "for-subscribers",
-    eyebrow: "How it works, for paying on autopilot",
-    heading: "Schedule a recurring payment to anyone",
+    title: "For paying on autopilot",
     steps: [
       {
         title: "Set the rule in your wallet",

@@ -5,7 +5,7 @@ export default function SiteFooter() {
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
-        <span>© 2026 Cevolta. Built in Chile, on Stellar.</span>
+        <span>Cevolta. Built in Chile, on Stellar.</span>
         <span>
           <a href={GITHUB_URL} target="_blank" rel="noopener">
             GitHub

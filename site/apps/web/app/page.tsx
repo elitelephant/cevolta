@@ -5,7 +5,6 @@ import HowItWorksSlide from "@/components/HowItWorksSlide";
 import UseCasesSlide from "@/components/UseCasesSlide";
 import WaitlistSlide from "@/components/WaitlistSlide";
 import SiteFooter from "@/components/SiteFooter";
-import { howItWorks } from "@/content/howItWorks";
 
 export default function Home() {
   return (
@@ -14,9 +13,7 @@ export default function Home() {
       <DotNav />
       <main>
         <HeroSlide />
-        {howItWorks.map((panel) => (
-          <HowItWorksSlide key={panel.id} panel={panel} />
-        ))}
+        <HowItWorksSlide />
         <UseCasesSlide />
         <WaitlistSlide />
       </main>

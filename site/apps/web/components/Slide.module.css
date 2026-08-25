@@ -30,3 +30,26 @@
   margin-block: auto;
   width: 100%;
 }
+
+.innerWithVisual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 6vw, 96px);
+}
+
+.content {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.visual {
+  flex: 0 0 clamp(200px, 24vw, 320px);
+  aspect-ratio: 6 / 7;
+}
+
+@media (max-width: 900px) {
+  .visual {
+    display: none;
+  }
+}

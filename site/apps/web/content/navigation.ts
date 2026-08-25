@@ -5,8 +5,7 @@ export type SlideLink = {
 
 export const slides: SlideLink[] = [
   { href: "#overview", label: "Overview" },
-  { href: "#for-merchants", label: "How it works, for getting paid" },
-  { href: "#for-subscribers", label: "How it works, for paying" },
+  { href: "#how-it-works", label: "How it works" },
   { href: "#use-cases", label: "Use cases" },
   { href: "#waitlist", label: "Waitlist" },
 ];

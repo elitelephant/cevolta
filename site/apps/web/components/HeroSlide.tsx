@@ -1,9 +1,10 @@
 import Slide from "./Slide";
+import BrandGraphic from "./BrandGraphic";
 import { GITHUB_URL } from "@/content/navigation";
 
 export default function HeroSlide() {
   return (
-    <Slide id="overview">
+    <Slide id="overview" visual={<BrandGraphic variant="overview" />}>
       <p className="eyebrow">Non-custodial · Built on Stellar</p>
       <h1>A recurring payment that lives in your wallet, not in anyone&apos;s promise</h1>
       <p className="lead">
