@@ -1,0 +1,29 @@
+.footer {
+  border-top: 1px solid var(--border);
+  padding: var(--footer-pad-y) var(--pad-gutter);
+  min-height: var(--footer-strip);
+  display: flex;
+  align-items: center;
+  scroll-snap-align: end;
+}
+
+.inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--footer-gap);
+  font-size: var(--fs-footer);
+  color: var(--dim);
+}
+
+.inner a {
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inner a:hover {
+  color: var(--text);
+}

@@ -1,0 +1,43 @@
+.steps {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--m-block-top);
+  max-width: var(--measure-steps);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: var(--step-col) 1fr;
+  gap: var(--step-gap);
+  padding: var(--step-pad-y) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.stepNum {
+  width: var(--step-num-size);
+  height: var(--step-num-size);
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-weight: var(--w-mono);
+  font-size: var(--fs-step-num);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepTitle {
+  margin: var(--step-title-mt) 0 var(--step-title-mb);
+  font-size: var(--fs-step-title);
+}
+
+.stepBody {
+  margin: 0;
+  color: var(--dim);
+  font-size: var(--fs-step-body);
+}

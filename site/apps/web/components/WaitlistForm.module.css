@@ -1,0 +1,46 @@
+.form {
+  display: flex;
+  gap: var(--form-gap);
+  flex-wrap: wrap;
+  max-width: var(--measure-form);
+  margin: 0 0 var(--m-form-bottom);
+}
+
+.input {
+  flex: 1 1 var(--form-input-basis);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  padding: var(--input-pad-y) var(--input-pad-x);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--fs-input);
+}
+
+.inputInvalid {
+  border-color: var(--danger);
+}
+
+.errorMsg {
+  width: 100%;
+  margin: calc(var(--form-gap) * -1) 0 0;
+  font-size: var(--fs-trust);
+  color: var(--danger);
+}
+
+.status:focus-visible {
+  outline: none;
+}
+
+.statusError {
+  color: var(--danger);
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

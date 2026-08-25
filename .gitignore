@@ -1,3 +1,10 @@
 .gstack/
 
 .vercel
+
+node_modules/
+.next/
+.turbo/
+*.tsbuildinfo
+.env*.local
+

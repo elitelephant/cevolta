@@ -1,0 +1,30 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--usecase-gap);
+  margin-top: var(--m-block-top);
+}
+
+.item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-usecase);
+  padding: var(--usecase-pad);
+  background: var(--overlay-well);
+}
+
+.title {
+  margin: 0 0 var(--usecase-title-mb);
+  font-size: var(--fs-usecase-title);
+}
+
+.body {
+  margin: 0;
+  color: var(--dim);
+  font-size: var(--fs-usecase-body);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,25 +1,25 @@
 # Cevolta
 
-Protocolo de suscripciones recurrentes no-custodial en Stellar. La autorización del cobro vive en la Smart Wallet del propio Subscriber (vía un Policy Signer con monto, destinatario y cadencia fijos), no en un allowance abierto en manos del Merchant.
+Non-custodial recurring payments on Stellar. Charge authorization lives in the Subscriber's own Smart Wallet (via a Policy Signer with a fixed amount, recipient, and cadence), not in an open-ended allowance held by the Merchant.
 
-Ver el dominio y las decisiones de arquitectura en [`CONTEXT.md`](./CONTEXT.md) y [`docs/adr`](./docs/adr).
+See the domain and architecture decisions in [`CONTEXT.md`](./CONTEXT.md) and [`docs/adr`](./docs/adr).
 
-## Estado
+## Status
 
-Idea validada con landing page y demo. El contrato Soroban (Subscription Registry) y las interfaces conectadas a Testnet están en construcción — ver [`docs`](./docs).
+Idea validated with a landing page. The Soroban contract (Subscription Registry) and the Testnet-connected interfaces are under construction — see [`docs`](./docs).
 
-## Estructura
+## Structure
 
-- `site/` — landing page estática + waitlist (Vercel)
-- `docs/` — glosario de dominio, ADRs, notas de agentes
-- `CONTEXT.md` — glosario de términos del dominio
+- `site/` — landing page + waitlist, a Next.js app in its own small Turborepo (deployed on Vercel)
+- `docs/` — domain glossary, ADRs, agent notes
+- `CONTEXT.md` — domain terminology glossary
 
 ## Landing page
 
 ```
 cd site
 npm install
-vercel dev
+npm run dev
 ```
 
-Sitio en producción: [cevolta.xyz](https://cevolta.xyz)
+Production site: [cevolta.xyz](https://cevolta.xyz)

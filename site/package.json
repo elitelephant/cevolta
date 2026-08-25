@@ -1,7 +1,16 @@
 {
-  "name": "cevolta-site",
+  "name": "cevolta",
   "private": true,
-  "dependencies": {
-    "@vercel/blob": "^2.8.0"
+  "workspaces": [
+    "apps/*"
+  ],
+  "packageManager": "npm@11.13.0",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2"
   }
 }

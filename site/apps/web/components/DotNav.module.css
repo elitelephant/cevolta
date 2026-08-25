@@ -1,0 +1,47 @@
+.dotnav {
+  position: fixed;
+  right: var(--dotnav-right);
+  top: calc(50% + var(--header-h) / 2);
+  transform: translateY(-50%);
+  z-index: var(--z-dotnav);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dotnav-gap);
+}
+
+.dotnav a {
+  box-sizing: content-box;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  padding: var(--dot-hit-pad);
+  border-radius: 50%;
+  background: var(--dot-idle);
+  background-clip: content-box;
+  display: block;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    transform var(--dur-fast) var(--ease-standard);
+}
+
+.dotnav a:hover {
+  background: var(--dim);
+  background-clip: content-box;
+}
+
+.dotnav a.active {
+  background: var(--accent-strong);
+  background-clip: content-box;
+  transform: scale(var(--dot-active-scale));
+}
+
+@media (max-width: 720px) {
+  .dotnav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotnav a {
+    transition: none;
+  }
+}

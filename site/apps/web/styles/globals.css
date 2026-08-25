@@ -1,0 +1,118 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-base);
+  background: var(--bg);
+  color: var(--text);
+  scroll-snap-type: y mandatory;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: var(--w-extrabold);
+  letter-spacing: var(--track-h1);
+  line-height: var(--lh-h1);
+  margin: 0 0 var(--m-h1);
+  text-wrap: balance;
+  max-width: var(--measure-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: var(--w-bold);
+  letter-spacing: var(--track-h2);
+  line-height: var(--lh-h2);
+  margin: 0 0 var(--m-h2);
+  text-wrap: balance;
+  max-width: var(--measure-h2);
+}
+
+h4 {
+  font-weight: var(--w-bold);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-weight: var(--w-mono);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  margin: 0 0 var(--m-eyebrow);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  color: var(--dim);
+  max-width: var(--measure-lead);
+  margin: 0 0 var(--m-lead);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-row);
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--btn-gap);
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: var(--w-semibold);
+  font-size: var(--fs-btn);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.link {
+  font-size: var(--fs-nav);
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trust-note {
+  font-size: var(--fs-trust);
+  color: var(--dim);
+  margin: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

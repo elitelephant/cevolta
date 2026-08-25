@@ -1,0 +1,32 @@
+.slide {
+  min-height: calc(100dvh - var(--header-h));
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: var(--pad-slide);
+}
+
+/* Final slide shares its screen with the footer so header + slide + footer
+   are all fully visible at the last snap stop. */
+.slideLast {
+  min-height: calc(100dvh - var(--header-h) - var(--footer-strip));
+}
+
+.card {
+  width: 100%;
+  max-width: var(--content-max);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--pad-card);
+  display: flex;
+  flex-direction: column;
+}
+
+.inner {
+  margin-block: auto;
+  width: 100%;
+}

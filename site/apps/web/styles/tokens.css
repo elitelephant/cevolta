@@ -1,0 +1,188 @@
+/*
+ * Single source of truth for every literal design value.
+ * Only this file may contain raw values; every other stylesheet must use var().
+ *
+ * Breakpoint constants (literals are invalid inside @media, so they are
+ * declared here once and must not diverge elsewhere):
+ *   width:  max-width 640px | 720px
+ *   height: max-height 560px | 820px
+ *   pointer: coarse
+ */
+
+:root {
+  /* fonts */
+  --sans: var(--font-inter), "Inter", -apple-system, "Segoe UI", sans-serif;
+  --mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, Menlo, Consolas,
+    monospace;
+
+  /* weights & rhythm */
+  --w-regular: 400;
+  --w-semibold: 600;
+  --w-bold: 700;
+  --w-extrabold: 800;
+  --w-mono: 500;
+  --lh-base: 1.5;
+  --lh-h1: 1.06;
+  --lh-h2: 1.12;
+  --track-h1: -0.025em;
+  --track-h2: -0.02em;
+  --track-logo: -0.01em;
+  --track-caps: 0.07em;
+
+  /* color */
+  --bg: #0b1211;
+  --card: #131d1a;
+  --border: #22302c;
+  --text: #ecf2f0;
+  --dim: #8a9994;
+  --accent: #2f8a74;
+  --accent-strong: #55c1a2;
+  --on-accent: #05100c; /* near-black: --accent is mid-tone, needs a dark fg for contrast */
+  --danger: #e09052;
+
+  /* color composites */
+  --bg-translucent: rgba(11, 18, 17, 0.82);
+  --overlay-well: rgba(11, 18, 17, 0.4);
+  --dot-idle: color-mix(in srgb, var(--dim) 50%, var(--bg));
+
+  /* elevation & effects */
+  --shadow-card: 0 40px 90px -30px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(47, 138, 116, 0.06);
+  --blur-header: 10px;
+
+  /* type scale */
+  --fs-h1: clamp(2.3rem, 5.6vw, 4.1rem);
+  --fs-h2: clamp(1.8rem, 4vw, 2.7rem);
+  --fs-lead: clamp(1.05rem, 1.4vw, 1.25rem);
+  --fs-eyebrow: 0.78rem;
+  --fs-logo: 1.05rem;
+  --fs-nav: 0.88rem;
+  --fs-btn: 0.88rem;
+  --fs-step-num: 0.85rem;
+  --fs-step-title: 1.1rem;
+  --fs-step-body: 0.95rem;
+  --fs-usecase-title: 1.08rem;
+  --fs-usecase-body: 0.92rem;
+  --fs-input: 0.98rem;
+  --fs-trust: 0.84rem;
+  --fs-footer: 0.86rem;
+
+  /* measures */
+  --measure-h1: 18ch;
+  --measure-h2: 20ch;
+  --measure-lead: 58ch;
+  --measure-steps: 640px;
+  --measure-form: 440px;
+  --content-max: 1360px;
+
+  /* spacing */
+  --pad-slide: clamp(10px, 2.2vw, 26px);
+  --pad-card: clamp(32px, 5vw, 76px);
+  --pad-gutter: 28px;
+  --gap-nav: 26px;
+  --gap-row: 22px;
+  --header-gap: 20px;
+  --logo-gap: 8px;
+  --btn-gap: 8px;
+  --step-gap: 20px;
+  --step-pad-y: 22px;
+  --step-col: 38px;
+  --step-num-size: 32px;
+  --step-title-mt: 3px;
+  --step-title-mb: 6px;
+  --usecase-gap: 18px;
+  --usecase-pad: 26px;
+  --usecase-title-mb: 10px;
+  --form-gap: 10px;
+  --form-input-basis: 240px;
+  --btn-pad-y: 11px;
+  --btn-pad-x: 22px;
+  --input-pad-y: 13px;
+  --input-pad-x: 16px;
+  --footer-pad-y: 30px;
+  --footer-gap: 12px;
+  --m-eyebrow: 20px;
+  --m-h1: 26px;
+  --m-h2: 22px;
+  --m-lead: 38px;
+  --m-block-top: 8px;
+  --m-form-bottom: 8px;
+
+  /* radius */
+  --radius-card: clamp(20px, 2.4vw, 32px);
+  --radius-usecase: 16px;
+  --radius-input: 8px;
+  --radius-pill: 999px;
+
+  /* layout */
+  --header-h: 76px;
+  --footer-strip: 82px;
+  --dot-size: 8px;
+  --dot-hit-pad: 8px;
+  --dotnav-right: 22px;
+  --dotnav-gap: 16px;
+  --dot-active-scale: 1.4;
+
+  /* z-index */
+  --z-dotnav: 25;
+  --z-header: 30;
+
+  /* motion */
+  --dur-fast: 0.2s;
+  --ease-standard: ease;
+}
+
+/* Compact tier — short viewports (small laptops) tighten vertical rhythm */
+@media (max-height: 820px) {
+  :root {
+    --fs-h1: clamp(2rem, 5vw, 3.4rem);
+    --fs-h2: clamp(1.6rem, 3.6vw, 2.2rem);
+    --fs-lead: clamp(1rem, 1.3vw, 1.15rem);
+    --pad-card: clamp(24px, 4vw, 48px);
+    --m-eyebrow: 16px;
+    --m-h1: 20px;
+    --m-h2: 18px;
+    --m-lead: 26px;
+    --step-pad-y: 16px;
+    --usecase-pad: 20px;
+    --footer-pad-y: 24px;
+  }
+}
+
+/* Landscape phones / very short viewports */
+@media (max-height: 560px) {
+  :root {
+    --header-h: 60px;
+    --fs-h1: clamp(1.7rem, 4.4vw, 2.6rem);
+    --fs-h2: clamp(1.45rem, 3.2vw, 1.9rem);
+    --fs-lead: clamp(0.95rem, 1.2vw, 1.08rem);
+    --pad-slide: clamp(8px, 1.8vw, 18px);
+    --pad-card: clamp(18px, 3.4vw, 36px);
+    --m-eyebrow: 12px;
+    --m-h1: 16px;
+    --m-h2: 14px;
+    --m-lead: 20px;
+    --step-pad-y: 12px;
+    --usecase-gap: 14px;
+    --usecase-pad: 16px;
+    --footer-pad-y: 18px;
+    --btn-pad-y: 9px;
+    --footer-strip: 60px;
+  }
+}
+
+/* Mobile gutter (companion of the ≤640px nav fix) + wrapped footer strip */
+@media (max-width: 640px) {
+  :root {
+    --pad-gutter: 18px;
+    --footer-strip: 124px;
+  }
+}
+
+/* Comfortable touch targets on coarse pointers */
+@media (pointer: coarse) {
+  :root {
+    --btn-pad-y: 13px;
+    --input-pad-y: 14px;
+  }
+}
