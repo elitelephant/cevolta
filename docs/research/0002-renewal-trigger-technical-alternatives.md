@@ -7,7 +7,7 @@ GitHub reads via `gh api` for repo source/READMEs; `WebFetch`/`WebSearch` agains
 and Gelato's own docs) on 2026-08-25. This is a follow-on to
 `docs/research/0001-renewal-trigger-and-market-viability.md`, scoped narrowly to the technical
 question that document's §1 opened and did not fully catalog: **once you accept that Soroban has
-no native scheduler and something external must submit the Subscription Registry's `renew()`
+no native scheduler and something external must submit the Payment Registry's `renew()`
 call each cycle, what are all the concrete ways to build that "something external"?**
 
 This document does not rank the alternatives, does not make a business or competitive argument,
@@ -26,13 +26,13 @@ external calls `renew()`" piece, not a way of eliminating the need for it.
 
 ## 1. Centralized poller via OpenZeppelin Relayer
 
-**What it is.** A single off-chain process Cevolta operates that watches Subscription Registry
-state, determines which subscriptions are due, builds and signs `renew()` transactions, and
+**What it is.** A single off-chain process Cevolta operates that watches Payment Registry
+state, determines which enrollments are due, builds and signs `renew()` transactions, and
 submits them through OpenZeppelin Relayer (branded "Stellar Channels Service" in the official
 docs) rather than directly to Stellar RPC.
 
-**How it would work for Cevolta.** The poller reads subscription due-dates from the Registry
-(directly via RPC/Horizon, or from its own indexed copy), builds `renew(subscription_id)`
+**How it would work for Cevolta.** The poller reads enrollment due-dates from the Registry
+(directly via RPC/Horizon, or from its own indexed copy), builds `renew(enrollment_id)`
 invocations, simulates them to obtain auth XDRs, and calls `ChannelsClient.submitSorobanTransaction()`
 or `submitTransaction()` from `@openzeppelin/relayer-plugin-channels`. Relayer handles nonce
 management, fee bidding, and parallel submission; Cevolta still owns and runs the actual
@@ -79,14 +79,14 @@ single point of failure upstream of Cevolta's own poller.
 ## 2. Redundant independent pollers racing to submit the same call
 
 **What it is.** 2-3 independently operated poller processes (different hosts, potentially
-different operators) that each independently compute due subscriptions and submit `renew()`,
-relying on the Subscription Registry to make a second/third submission for the same subscription
+different operators) that each independently compute due enrollments and submit `renew()`,
+relying on the Payment Registry to make a second/third submission for the same enrollment
 a cheap no-op (idempotent) rather than a double-charge.
 
-**How it would work for Cevolta.** `renew()` checks the subscription's `next_renewal_ledger`
+**How it would work for Cevolta.** `renew()` checks the enrollment's `next_renewal_ledger`
 (or a per-cycle nonce) before acting; if a poller submits after another poller's transaction for
 the same cycle already landed, the second call fails cheaply (e.g., a `require`/error path) rather
-than double-charging the Subscriber. This is an application-level idempotency guarantee Cevolta
+than double-charging the Payer. This is an application-level idempotency guarantee Cevolta
 must build into the Registry contract; Stellar's protocol offers no native "exactly-once
 scheduled call" primitive to lean on.
 
@@ -145,7 +145,7 @@ structurally identical "someone must call this before a deadline, and if nobody 
 lost" problem.
 
 **Applicability caveat:** Nectar's incentive is the liquidation profit itself (bid/lot spread);
-keepers are drawing on a shared vault and keeping a cut of a value-capture event. A subscription
+keepers are drawing on a shared vault and keeping a cut of a value-capture event. An enrollment
 `renew()` call has no comparable intrinsic profit opportunity for the caller unless Cevolta
 explicitly funds a bounty per call (see below); the economic model does not transfer directly.
 
@@ -171,7 +171,7 @@ Verified from source, not just the README:
   step and in the test suite, e.g. an unauthorized keeper's `try_execute` call fails with
   `Error::Unauthorized`); an **empty whitelist makes the task fully permissionless**: any keeper
   may execute it and presumably collect the bounty. This gives a task creator (in Cevolta's case,
-  potentially the Merchant or Cevolta itself) a real, code-level choice between "anyone may
+  potentially the Payee or Cevolta itself) a real, code-level choice between "anyone may
   trigger renewal" and "only these specific addresses may."
 - The contract also defines `create_policy` / `submit_claim` / `settle_claim` entry points for an
   **on-chain insurance mechanism**: a policy owner pays a premium for coverage tied to a task,
@@ -185,7 +185,7 @@ Verified from source, not just the README:
   maturity signals) unaudited and not yet deployed to mainnet.
 
 **Applicability.** SoroTask's `register`/`execute`/whitelist pattern maps onto Cevolta's problem
-almost directly: a Subscription Registry `renew()` could adopt the same "optional per-subscription
+almost directly: a Payment Registry `renew()` could adopt the same "optional per-enrollment
 allowlist, default-permissionless, bounty-funded" shape without needing to depend on SoroTask
 itself. It is evidence of a workable contract-level design more than a drop-in dependency,
 given its current unaudited/pre-mainnet status.
@@ -203,7 +203,7 @@ liveness entirely, once bootstrapped; SoroTask's design shows the contract-level
 (whitelist toggle, insurance) are buildable on Soroban today.
 
 **Cons.** Requires either (a) Cevolta funding a per-call bounty out of protocol revenue (a direct
-cost that scales with subscription volume) or (b) accepting a token/incentive design of its own;
+cost that scales with enrollment volume) or (b) accepting a token/incentive design of its own;
 neither is a purely technical decision, but the *requirement* to solve it is a technical
 consequence of choosing this alternative; cold-start liveness risk before a keeper market
 develops depth (this is exactly the gap SoroTask's insurance module and Nectar's SCF funding are
@@ -212,7 +212,7 @@ testnet-only or unaudited-on-mainnet as of this pass, so there is no production-
 keeper marketplace to point to yet.
 
 **Open questions/risks.** Bounty sizing (too low: no keeper shows up; too high: erodes protocol
-economics); whether a per-subscription whitelist (SoroTask's model) or fully open execution suits
+economics); whether a per-enrollment whitelist (SoroTask's model) or fully open execution suits
 Cevolta's trust model better; what recourse exists on a missed cycle if no insurance-style
 mechanism is built.
 
@@ -255,7 +255,7 @@ directly this precedent applies to Cevolta:
    **contract-held balance**, and suspends the subscription once the balance runs out, burning
    the charged tokens. This is a materially different trust model from Cevolta's Policy-Signer
    design: Reflector Subscriptions holds subscriber funds in the contract and debits down a
-   balance, whereas Cevolta is explicitly non-custodial (the Subscription Registry "never holds
+   balance, whereas Cevolta is explicitly non-custodial (the Payment Registry "never holds
    an allowance or custody of funds," per `docs/CONTEXT.md`). The `charge()` function's
    batch-processing shape: iterate a list of IDs, compute and deduct what's owed, gracefully catch up on missed
    cycles ("we can charge fees for several days in case there was an interruption in background
@@ -279,61 +279,61 @@ reflects a design dead-end or simply low current demand; what "publish an on-cha
 precisely beyond the `trigger()` event given the contract has no verification logic for the
 underlying off-chain condition.
 
-## 5. Merchant-self-interest triggering
+## 5. Payee-self-interest triggering
 
-**What it is.** The Merchant profits from a successful `renew()` (it is how they get paid), so
-the Merchant's own backend could simply be the Renewal Trigger, with no separate keeper
+**What it is.** The Payee profits from a successful `renew()` (it is how they get paid), so
+the Payee's own backend could simply be the Renewal Trigger, with no separate keeper
 infrastructure, poller, or relayer required at all.
 
-**How it would work for Cevolta.** Each Merchant integrating with Cevolta runs (or has Cevolta's
+**How it would work for Cevolta.** Each Payee integrating with Cevolta runs (or has Cevolta's
 SDK run inside their existing billing backend) a scheduled job that calls `renew()` for its own
-Subscribers when due, submitting directly to Stellar RPC or through a relayer of the Merchant's
+Payers when due, submitting directly to Stellar RPC or through a relayer of the Payee's
 choosing.
 
 **No Stellar-ecosystem precedent search was applicable here**: this is a deployment-topology
 choice (who operates the trigger process), not a distinct technical mechanism; it can be combined
-with alternative 1's or 2's architecture (a poller/relayer), just operated by the Merchant instead
+with alternative 1's or 2's architecture (a poller/relayer), just operated by the Payee instead
 of by Cevolta.
 
 **Trust/liveness trade-offs.**
-- **Liveness incentive:** structurally strong: the Merchant directly loses revenue on every
+- **Liveness incentive:** structurally strong: the Payee directly loses revenue on every
   missed renewal, which is a stronger and more naturally aligned incentive than a
   flat-fee-per-call bounty in alternative 3, and requires no incentive design or token economics
   to bootstrap.
   and requires no incentive design or token economics to bootstrap.
-- **Liveness risk:** concentrated per-Merchant rather than protocol-wide: a Merchant with a
+- **Liveness risk:** concentrated per-Payee rather than protocol-wide: a Payee with a
   broken or neglected billing job silently stops collecting its own revenue, but this does not
-  cascade to other Merchants on Cevolta the way a single shared centralized poller's outage would
+  cascade to other Payees on Cevolta the way a single shared centralized poller's outage would
   (contrast alternative 1). It does mean Cevolta has as many single points of failure as it has
-  Merchants, each independently operated and independently reliable (or not).
-- **Trust:** the Merchant gains no spending power it doesn't already have from being the
-  authorized recipient in the Policy Signer's rules; a malicious or compromised Merchant backend
+  Payees, each independently operated and independently reliable (or not).
+- **Trust:** the Payee gains no spending power it doesn't already have from being the
+  authorized recipient in the Policy Signer's rules; a malicious or compromised Payee backend
   can only ever attempt calls the Policy Signer would already reject (wrong amount, wrong
   recipient, wrong cadence), so this does not weaken Cevolta's core non-custodial security
   property. The only new risk surface is availability/liveness, not fund safety.
-- **Operational burden shifts to the Merchant:** every Merchant integrating Cevolta must run and
+- **Operational burden shifts to the Payee:** every Payee integrating Cevolta must run and
   maintain scheduling infrastructure themselves (or embed an SDK that does), rather than this
   being centralized in one place Cevolta controls and can monitor/upgrade uniformly. This is a
   meaningfully different integration burden than a "drop in our checkout button" model.
 
-**Open questions/risks.** How Cevolta would detect/alert on a Merchant's trigger going silent
-(from the Subscriber's perspective, a missed renewal due to Merchant negligence looks identical
+**Open questions/risks.** How Cevolta would detect/alert on a Payee's trigger going silent
+(from the Payer's perspective, a missed renewal due to Payee negligence looks identical
 to one due to insufficient Policy Signer balance); whether Cevolta would want to offer this as
 one operator option among several rather than the sole mechanism, given the operational-burden
-trade-off; whether a Merchant could be incentivized to over-trigger (attempt renewal earlier than
+trade-off; whether a Payee could be incentivized to over-trigger (attempt renewal earlier than
 the agreed cadence), mitigated entirely by the Policy Signer's own cadence rule rejecting
 early attempts, not by anything in the trigger layer.
 
 ## 6. Client-side / wallet-triggered background execution
 
-**What it is.** The Subscriber's own wallet app periodically checks for and submits its own due
+**What it is.** The Payer's own wallet app periodically checks for and submits its own due
 renewals in the background, with no third-party trigger infrastructure at all.
 
 **Search result.** No Stellar-ecosystem precedent for this pattern was found. Searches of the
 official wallet/dapp docs (`search_wallet_dapp_docs`, `search_docs` for "background sync service
 worker wallet mobile app automatic") surfaced only unrelated material: the Wallet SDK tutorial
 series, SEP-24/SEP-30 recovery flows, and MPP's server-side "push mode" (a different concept:
-a merchant-side webhook receiver, not a subscriber wallet background job). No Stellar wallet
+a payee-side webhook receiver, not a payer wallet background job). No Stellar wallet
 (Freighter, passkey-kit-based wallets, or otherwise) advertises or documents a background-execution
 or service-worker-driven autonomous transaction-submission capability in the corpus searched.
 
@@ -347,15 +347,15 @@ from).** This is the weakest alternative on pure liveness grounds:
   BGTaskScheduler, Android WorkManager) to periodically check and submit, but this is
   unreliable by OS design: background execution windows are opportunistic, battery- and
   network-dependent, and can be suspended entirely by the OS, by the user force-quitting the app,
-  or by the device being off, none of which is under the Subscriber's, the Merchant's, or
+  or by the device being off, none of which is under the Payer's, the Payee's, or
   Cevolta's control.
-- Because Cevolta's architecture explicitly does not require a fresh Subscriber signature per
+- Because Cevolta's architecture explicitly does not require a fresh Payer signature per
   cycle (that is the entire point of the Policy Signer), this alternative would be strictly worse
   than alternatives 1-5 on liveness while gaining nothing on trust (the Policy Signer already
   provides the non-custodial guarantee regardless of who submits the call); its only structural
   advantage would be requiring zero third-party trigger infrastructure, at the cost of tying
-  liveness to whether the Subscriber's specific device happens to be on, online, and running the
-  wallet app at the right moment, for every single cycle, for the life of every subscription.
+  liveness to whether the Payer's specific device happens to be on, online, and running the
+  wallet app at the right moment, for every single cycle, for the life of every enrollment.
 
 **Open questions/risks.** Whether any hybrid is worth exploring (e.g., wallet-triggered as a
 fallback path only, layered under a primary poller/keeper mechanism) rather than as the sole
@@ -452,9 +452,9 @@ item beyond what shipped.
 ## 9. Hybrid: short-window pre-signed auth delivered in advance
 
 **What it is.** Instead of a persistent Policy Signer contract that auto-approves matching charges
-indefinitely, the Subscriber's wallet signs a single short-window `SorobanAuthorizationEntry`
+indefinitely, the Payer's wallet signs a single short-window `SorobanAuthorizationEntry`
 (governed by `signatureExpirationLedger`) a few days before an actual renewal date, and delivers
-that pre-signed authorization to the Merchant (e.g., via an API) for the Merchant to submit
+that pre-signed authorization to the Payee (e.g., via an API) for the Payee to submit
 whenever convenient within that window.
 
 **The mechanics, confirmed directly from official docs.** The authorization data structure is
@@ -470,33 +470,33 @@ value could be set, only that doing so costs more and is discouraged).
 
 **What this design would fix.** It removes the need for the Renewal Trigger to interact with a
 *live, currently-installed* Policy Signer at the moment of renewal; the authorization is already
-fully formed and self-contained days in advance. The Merchant (or anyone holding the pre-signed
+fully formed and self-contained days in advance. The Payee (or anyone holding the pre-signed
 entry) only needs to submit it within the validity window; there is no dependency on a
 long-lived on-chain policy contract being correctly configured and reachable at renewal time.
 
 **What this design trades away.** This is the load-bearing question the task asked, and the
-answer follows directly from removing the persistent Policy Signer: **the Subscriber's wallet
+answer follows directly from removing the persistent Policy Signer: **the Payer's wallet
 must actively participate (sign something new) before every single cycle**, which is exactly
 the UX/liveness burden the Policy Signer pattern (ADR-0001) was built to eliminate ("auto-approves
-matching charges without a fresh Subscriber signature each cycle"). Concretely:
-- **Lost:** the "fire and forget" property: a Subscriber whose wallet app is closed, whose device
-  is off, or who has simply forgotten about the subscription will not have a fresh pre-signed
+matching charges without a fresh Payer signature each cycle"). Concretely:
+- **Lost:** the "fire and forget" property: a Payer whose wallet app is closed, whose device
+  is off, or who has simply forgotten about the enrollment will not have a fresh pre-signed
   authorization ready when the next cycle approaches, silently breaking the "long-running,
-  no-re-authorization-needed" subscription model. This reintroduces exactly the liveness problem
+  no-re-authorization-needed" enrollment model. This reintroduces exactly the liveness problem
   discussed in alternative 6 (client-side triggering), just shifted from "submitting the renewal"
   to "producing the authorization the renewal needs", a smaller but structurally identical
-  dependency on the Subscriber's device/app being active on a schedule.
+  dependency on the Payer's device/app being active on a schedule.
 - **Lost:** revocation simplicity. ADR-0002's cancellation design revokes a single
-  Policy Signer inside the Smart Wallet and is immediately consistent with the Subscription
-  Registry via one `cancel()` call. In a pre-signed-entry model, a Subscriber who cancels after a
-  short-window auth has already been delivered to the Merchant cannot "unsign" that
+  Policy Signer inside the Smart Wallet and is immediately consistent with the Payment
+  Registry via one `cancel()` call. In a pre-signed-entry model, a Payer who cancels after a
+  short-window auth has already been delivered to the Payee cannot "unsign" that
   already-issued authorization; cancellation would need either to race the delivery/validity
   window, or the Registry's `cancel()` would need an explicit check against a still-valid,
   not-yet-submitted pre-signed entry (a new mechanism ADR-0002 does not currently need, since a
   Policy Signer can simply be deactivated at any time before its next matching charge is even
   attempted).
 - **Gained:** removes the requirement that a Policy Signer contract be persistently installed,
-  correctly configured, and reachable in the Subscriber's Smart Wallet for the whole subscription
+  correctly configured, and reachable in the Payer's Smart Wallet for the whole enrollment
   lifetime; the trust/complexity surface shifts from "a long-lived policy contract must keep
   working correctly" to "a short-lived signature must be freshly produced and delivered on time,
   every cycle." Whether that is a net simplification depends entirely on whether producing and
@@ -510,13 +510,13 @@ pass's searches of the docs corpus, meeting notes, or ecosystem/repo directories
 a design this pass could only evaluate from first principles against the documented
 `signatureExpirationLedger` mechanics, not one with existing Stellar-ecosystem prior art.
 
-**Open questions/risks.** How the Subscriber's wallet would be prompted/reminded to produce the
+**Open questions/risks.** How the Payer's wallet would be prompted/reminded to produce the
 next signature (this reintroduces a scheduling problem of its own, just on the client side, one
 layer removed from the original Renewal Trigger problem); how many cycles of pre-signed entries
 could safely be batched/delivered at once to reduce this frequency (trading off against the "keep
 `signatureExpirationLedger` small" cost recommendation and the revocation problem above, which
 gets worse the more cycles are pre-signed at once); what happens on a missed delivery window
-(does the subscription lapse, retry, or fall back to a different mechanism).
+(does the enrollment lapse, retry, or fall back to a different mechanism).
 
 ## 10. Additional pattern found: MPP Session mode (payment channels), adjacent, not a direct fit
 
@@ -545,12 +545,12 @@ No ranking or recommendation column: dimensions only, as specified.
 |---|---|---|---|---|---|
 | 1. Centralized poller + OZ Relayer | Cevolta-operated process; no spending power beyond what Policy Signer already allows | Single process/host: no guarantee beyond Cevolta's own uptime practices | Low: one component, Relayer absorbs submission/fee mechanics | Relayer fees + Cevolta's own infra cost | None: fully centralized trigger, non-custodial charge authorization unaffected |
 | 2. Redundant independent pollers | Same as (1), spread across N operators/hosts | Better than (1) if at least one poller is up; requires contract-level idempotency | Medium: N× infra, plus idempotency logic in the Registry | N× poller infra cost; some wasted-submission cost on races | Low-to-medium, depending on whether all pollers are Cevolta-run or third-party |
-| 3. Permissionless keeper marketplace | Keepers are stake/incentive-gated (Nectar, SoroTask) or open (SoroTask empty-whitelist mode); no custody of funds | Depends on market depth/bootstrapping; unproven at Cevolta's scale; SoroTask's insurance module addresses partial-failure, not total absence of keepers | High: bounty/incentive design, potentially staking/slashing, cold-start problem | Per-call bounty cost, scales with subscription volume; no proven production precedent to cost-benchmark against | High, once bootstrapped; low during cold-start |
+| 3. Permissionless keeper marketplace | Keepers are stake/incentive-gated (Nectar, SoroTask) or open (SoroTask empty-whitelist mode); no custody of funds | Depends on market depth/bootstrapping; unproven at Cevolta's scale; SoroTask's insurance module addresses partial-failure, not total absence of keepers | High: bounty/incentive design, potentially staking/slashing, cold-start problem | Per-call bounty cost, scales with enrollment volume; no proven production precedent to cost-benchmark against | High, once bootstrapped; low during cold-start |
 | 4. Reflector-style condition-triggered oracle model | On-chain: single admin-authorized call (verified from source); off-chain node-cluster composition of that admin key is unverified from the contract alone | Depends entirely on Reflector-style infrastructure being live; the actual contract examined is currently dormant | High: requires operating or depending on an oracle-cluster-grade off-chain system; custodial billing model differs from Cevolta's non-custodial design | Unknown: no live deployment to observe cost from | Contract-level: low (single authorized caller); off-chain: unverified |
-| 5. Merchant-self-interest triggering | Merchant has no more spending power than the Policy Signer already grants it; risk is availability, not fund safety | Per-Merchant: one Merchant's outage doesn't cascade, but there are as many single points of failure as Merchants | Low for Cevolta; shifts operational burden to every integrating Merchant | Borne by each Merchant, not centralized in Cevolta | Distributed across Merchants, but each individually centralized |
-| 6. Client-side/wallet-triggered | No new trust surface beyond the Policy Signer | Weakest: depends on the Subscriber's specific device being on, online, and running the wallet app at the right moment, every cycle | Low mechanically, but no existing wallet in the corpus searched implements background scheduled submission | No third-party infra cost | Maximally decentralized (each Subscriber is their own trigger), at a direct cost to reliability |
+| 5. Payee-self-interest triggering | Payee has no more spending power than the Policy Signer already grants it; risk is availability, not fund safety | Per-Payee: one Payee's outage doesn't cascade, but there are as many single points of failure as Payees | Low for Cevolta; shifts operational burden to every integrating Payee | Borne by each Payee, not centralized in Cevolta | Distributed across Payees, but each individually centralized |
+| 6. Client-side/wallet-triggered | No new trust surface beyond the Policy Signer | Weakest: depends on the Payer's specific device being on, online, and running the wallet app at the right moment, every cycle | Low mechanically, but no existing wallet in the corpus searched implements background scheduled submission | No third-party infra cost | Maximally decentralized (each Payer is their own trigger), at a direct cost to reliability |
 | 7. Chainlink Automation / Gelato | N/A: not usable | N/A | N/A | N/A | Not available: neither has documented Stellar/Soroban support as of this pass |
-| 9b. Short-window pre-signed auth delivered in advance | Removes dependency on a persistent Policy Signer contract; adds dependency on timely per-cycle signature production/delivery | Weaker than the Policy Signer model for "fire and forget": requires the Subscriber's wallet to actively produce a new signature before every cycle | Medium: no persistent policy contract needed, but requires a delivery/reminder mechanism and a harder cancellation-race design | Smaller `signatureExpirationLedger` windows are cheaper per the docs' own guidance; batching multiple cycles trades this off against revocation risk | No ecosystem precedent found to assess in practice |
+| 9b. Short-window pre-signed auth delivered in advance | Removes dependency on a persistent Policy Signer contract; adds dependency on timely per-cycle signature production/delivery | Weaker than the Policy Signer model for "fire and forget": requires the Payer's wallet to actively produce a new signature before every cycle | Medium: no persistent policy contract needed, but requires a delivery/reminder mechanism and a harder cancellation-race design | Smaller `signatureExpirationLedger` windows are cheaper per the docs' own guidance; batching multiple cycles trades this off against revocation risk | No ecosystem precedent found to assess in practice |
 
 ## Sources
 
@@ -594,6 +594,6 @@ No ranking or recommendation column: dimensions only, as specified.
   directly after a redirect from `docs.gelato.network`; corroborated by `WebSearch` that Gelato's
   documented chain support is EVM-only)
 - `docs/CONTEXT.md`, `docs/adr/0001-smart-account-kit-for-smart-wallet.md`,
-  `docs/adr/0002-cancel-through-subscription-registry.md`,
+  `docs/adr/0002-cancel-through-payment-registry.md`,
   `docs/research/0001-renewal-trigger-and-market-viability.md` (internal repo context, not
   re-verified in this pass except where explicitly noted as a correction or update)
