@@ -13,8 +13,8 @@ export default function Home() {
       <DotNav />
       <main>
         <HeroSlide />
-        <HowItWorksSlide />
         <UseCasesSlide />
+        <HowItWorksSlide />
         <WaitlistSlide />
       </main>
       <SiteFooter />

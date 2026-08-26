@@ -71,7 +71,7 @@ h4 {
   gap: var(--btn-gap);
   padding: var(--btn-pad-y) var(--btn-pad-x);
   border-radius: var(--radius-pill);
-  background: var(--accent);
+  background: var(--accent-strong);
   color: var(--on-accent);
   font-weight: var(--w-semibold);
   font-size: var(--fs-btn);

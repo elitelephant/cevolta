@@ -91,7 +91,6 @@
   --step-title-mt: 3px;
   --step-title-mb: 6px;
   --usecase-gap: 18px;
-  --usecase-pad: 26px;
   --usecase-title-mb: 10px;
   --form-gap: 10px;
   --form-input-basis: 240px;
@@ -110,7 +109,6 @@
 
   /* radius */
   --radius-card: clamp(20px, 2.4vw, 32px);
-  --radius-usecase: 16px;
   --radius-input: 8px;
   --radius-pill: 999px;
 
@@ -144,7 +142,6 @@
     --m-h2: 18px;
     --m-lead: 26px;
     --step-pad-y: 16px;
-    --usecase-pad: 20px;
     --footer-pad-y: 24px;
   }
 }
@@ -164,7 +161,6 @@
     --m-lead: 20px;
     --step-pad-y: 12px;
     --usecase-gap: 14px;
-    --usecase-pad: 16px;
     --footer-pad-y: 18px;
     --btn-pad-y: 9px;
     --footer-strip: 60px;

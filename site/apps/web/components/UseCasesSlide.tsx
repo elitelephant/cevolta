@@ -11,11 +11,11 @@ export default function UseCasesSlide() {
     <Slide id="use-cases">
       <p className="eyebrow">{useCasesEyebrow}</p>
       <h2>{useCasesHeading}</h2>
-      <div className={styles.grid}>
+      <div className={styles.columns}>
         {useCases.map((useCase) => (
-          <div className={styles.item} key={useCase.title}>
-            <h4 className={styles.title}>{useCase.title}</h4>
-            <p className={styles.body}>{useCase.description}</p>
+          <div className={styles.column} key={useCase.title}>
+            <h3 className={styles.columnTitle}>{useCase.title}</h3>
+            <p className={styles.columnBody}>{useCase.description}</p>
           </div>
         ))}
       </div>

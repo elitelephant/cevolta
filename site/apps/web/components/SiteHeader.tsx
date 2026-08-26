@@ -9,11 +9,11 @@ export default function SiteHeader() {
           Cevolta
         </a>
         <nav className={styles.siteNav}>
-          <a className={styles.navLink} href="#how-it-works">
-            How it works
-          </a>
           <a className={styles.navLink} href="#use-cases">
             Use cases
+          </a>
+          <a className={styles.navLink} href="#how-it-works">
+            How it works
           </a>
           <a className="btn" href="#waitlist">
             Join the waitlist
