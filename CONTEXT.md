@@ -5,19 +5,19 @@ Non-custodial recurring-payments protocol on Stellar where charge authorization 
 ## Language
 
 **Payee**:
-Whoever creates a Plan and receives its recurring payments — a business running subscription billing, or a person receiving rent or a regular payment from someone else.
+Whoever creates a Plan and receives its recurring payments: a business running subscription billing, or a person receiving rent or a regular payment from someone else.
 _Avoid_: merchant, negocio, seller, business (as the canonical name)
 
 **Payer**:
-Whoever enrolls in a Plan from their own Smart Wallet and pays it on schedule — a subscriber paying a business, or a person paying rent, an allowance, or anyone else.
+Whoever enrolls in a Plan from their own Smart Wallet and pays it on schedule: a subscriber paying a business, or a person paying rent, an allowance, or anyone else.
 _Avoid_: subscriber, persona, customer, user
 
 **Plan**:
-A Payee-defined template for a recurring payment: an amount, a cadence, and optional metadata. Created via `create_plan`, read via `get_plan`. Not itself a charge or an authorization — a Payer must Enroll in it before any money moves.
+A Payee-defined template for a recurring payment: an amount, a cadence, and optional metadata. Created via `create_plan`, read via `get_plan`. Not itself a charge or an authorization. A Payer must Enroll in it before any money moves.
 _Avoid_: subscription plan (as the canonical name), tier, product
 
 **Enrollment**:
-A specific Payer's commitment to a Plan — the fixed amount, recipient, and cadence a Policy Signer will authorize, plus its current Enrollment Status. Created via `enroll`, read via `get_enrollment`.
+A specific Payer's commitment to a Plan: the fixed amount, recipient, and cadence a Policy Signer will authorize, plus its current Enrollment Status. Created via `enroll`, read via `get_enrollment`.
 _Avoid_: subscription (as the canonical name)
 
 **Smart Wallet**:

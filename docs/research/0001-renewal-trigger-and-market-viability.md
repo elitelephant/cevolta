@@ -156,7 +156,10 @@ space in Stellar's most rigorous contract registry as of 2026-08-25.
 Confirmed on the ecosystem directory: "REAPP (Real Agentic Payment Protocol)... composes x402 HTTP
 settlement, Soroban policy enforcement, and AP2 mandate authorization into a single TypeScript
 SDK." **SCF award is $42,000 (round 43), not $70,000** as the prior pass stated. This looks like
-a factual error worth correcting. Its GitHub repo is `mks044/reapp-poc`. The `-poc` suffix and
+a factual error worth correcting. [**Correction, 2026-08-26**: this was itself wrong. A direct
+`scout.searchProjects` query returned an official-record, high-confidence (0.9) figure of
+**$70,000** (round 43, "Build" award type, source: `communityfund.stellar.org`). The original
+number was right.] Its GitHub repo is `mks044/reapp-poc`. The `-poc` suffix and
 `based_in: null` (no team/location on record) both suggest proof-of-concept stage rather than "a
 real team [with a] live testnet demo" as characterized. It has no verified mainnet contract in
 `scout.listContracts`. I'd still agree it's the closest architectural cousin in *shape* (on-chain
@@ -275,8 +278,10 @@ beyond simply re-confirming or correcting individual facts.
    Nectar Network (SCF-funded, serving live Blend Protocol liquidations) is the stronger validation
    citation; SoroLabs/SoroTask (444 commits/90d, has bounty/insurance economics for keeper failure)
    is the stronger design reference.
-3. **REAPP's SCF award is $42,000, not $70,000**, and its repo name (`reapp-poc`) and missing
-   team/location fields suggest proof-of-concept stage, not "a real team with a live testnet demo."
+3. **REAPP's SCF award is $70,000** (round 43, official record, see the correction note in
+   §2.1; an earlier pass in this document incorrectly said $42,000), and its repo name
+   (`reapp-poc`) and missing team/location fields still suggest proof-of-concept stage, not "a
+   real team with a live testnet demo."
 4. **Subfy could not be verified to exist** anywhere in the Stellar ecosystem via directory search
    or repo search. It shouldn't be cited with the same confidence as Subs or Vowena without a
    direct source.
