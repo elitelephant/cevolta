@@ -8,6 +8,15 @@
   padding: var(--pad-slide);
 }
 
+/* Reserve DotNav's width on both sides (not just the right) so the card
+   stays centered instead of drifting left under it. */
+@media (min-width: 720px) {
+  .slide {
+    padding-left: calc(var(--pad-slide) + var(--dotnav-clearance));
+    padding-right: calc(var(--pad-slide) + var(--dotnav-clearance));
+  }
+}
+
 /* Final slide shares its screen with the footer so header + slide + footer
    are all fully visible at the last snap stop. */
 .slideLast {

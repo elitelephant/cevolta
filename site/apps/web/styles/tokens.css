@@ -58,9 +58,10 @@
   --fs-logo: 1.05rem;
   --fs-nav: 0.88rem;
   --fs-btn: 0.88rem;
-  --fs-step-num: 0.85rem;
-  --fs-step-title: 1.1rem;
-  --fs-step-body: 0.95rem;
+  --fs-flow-label: 0.78rem;
+  --fs-point-num: 0.72rem;
+  --fs-point-title: 0.86rem;
+  --fs-point-body: 0.78rem;
   --fs-usecase-title: 1.08rem;
   --fs-usecase-body: 0.92rem;
   --fs-input: 0.98rem;
@@ -84,12 +85,11 @@
   --header-gap: 20px;
   --logo-gap: 8px;
   --btn-gap: 8px;
-  --step-gap: 20px;
-  --step-pad-y: 22px;
-  --step-col: 38px;
-  --step-num-size: 32px;
-  --step-title-mt: 3px;
-  --step-title-mb: 6px;
+  --point-tick-h: 26px;
+  --point-tick-size: 10px;
+  --point-label-gap: 22px;
+  --point-title-mt: 2px;
+  --point-title-mb: 3px;
   --usecase-gap: 18px;
   --usecase-title-mb: 10px;
   --form-gap: 10px;
@@ -120,6 +120,7 @@
   --dotnav-right: 22px;
   --dotnav-gap: 16px;
   --dot-active-scale: 1.4;
+  --dotnav-clearance: 64px;
 
   /* z-index */
   --z-dotnav: 25;
@@ -141,7 +142,8 @@
     --m-h1: 20px;
     --m-h2: 18px;
     --m-lead: 26px;
-    --step-pad-y: 16px;
+    --point-label-gap: 16px;
+    --point-tick-h: 22px;
     --footer-pad-y: 24px;
   }
 }
@@ -159,7 +161,8 @@
     --m-h1: 16px;
     --m-h2: 14px;
     --m-lead: 20px;
-    --step-pad-y: 12px;
+    --point-label-gap: 12px;
+    --point-tick-h: 18px;
     --usecase-gap: 14px;
     --footer-pad-y: 18px;
     --btn-pad-y: 9px;

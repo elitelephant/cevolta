@@ -1,78 +1,139 @@
-.columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--usecase-gap);
+.diagram {
   margin-top: var(--m-block-top);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--usecase-gap);
 }
 
-.column {
-  min-width: 0;
+.flowLabel {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: var(--fs-flow-label);
+  font-weight: var(--w-mono);
+  letter-spacing: var(--track-caps);
+  text-transform: uppercase;
 }
 
-.column + .column {
-  border-left: 1px solid var(--border);
-  padding-left: var(--usecase-gap);
+.flowLabelTop {
+  color: var(--accent-strong);
+  margin-bottom: var(--point-label-gap);
 }
 
-.columnTitle {
-  margin: 0 0 var(--usecase-title-mb);
-  font-size: var(--fs-usecase-title);
-  font-weight: var(--w-bold);
+.flowLabelBottom {
+  color: var(--accent-strong);
+  margin-top: var(--point-label-gap);
 }
 
-.steps {
+.cell {
   display: flex;
   flex-direction: column;
-}
-
-.step {
-  display: grid;
-  grid-template-columns: var(--step-col) 1fr;
   align-items: center;
-  gap: var(--step-gap);
-  padding: var(--step-pad-y) 0;
-  border-bottom: 1px solid var(--border);
+  min-width: 0;
+  text-align: center;
 }
 
-.step:last-child {
-  border-bottom: none;
+.cellTop {
+  align-self: end;
+}
+
+.cellBottom {
+  align-self: start;
+}
+
+.line {
+  grid-row: 3;
+  grid-column: 1 / -1;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: var(--usecase-gap);
+  height: var(--point-tick-h);
+  align-items: center;
+}
+
+.line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--accent);
+  transform: translateY(-50%);
+}
+
+.tick {
+  justify-self: center;
+  width: var(--point-tick-size);
+  height: var(--point-tick-size);
+  border-radius: 50%;
+  background: var(--accent-strong);
+  border: 2px solid var(--card);
 }
 
 .stepNum {
-  width: var(--step-num-size);
-  height: var(--step-num-size);
-  border-radius: 50%;
-  border: 1px solid var(--accent);
-  color: var(--accent-strong);
+  margin: 0;
   font-family: var(--mono);
-  font-weight: var(--w-mono);
-  font-size: var(--fs-step-num);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: var(--fs-point-num);
+}
+
+.cellTop .stepNum {
+  color: var(--accent-strong);
+}
+
+.cellBottom .stepNum {
+  color: var(--accent-strong);
 }
 
 .stepTitle {
-  margin: var(--step-title-mt) 0 var(--step-title-mb);
-  font-size: var(--fs-step-title);
+  margin: var(--point-title-mt) 0 var(--point-title-mb);
+  font-size: var(--fs-point-title);
+  font-weight: var(--w-bold);
 }
 
 .stepBody {
   margin: 0;
   color: var(--dim);
-  font-size: var(--fs-step-body);
+  font-size: var(--fs-point-body);
+  line-height: var(--lh-base);
 }
 
+/* Below 720px the diagram drops entirely; .cell/.flowLabel's inline
+   grid placement goes inert once .diagram is off grid. */
 @media (max-width: 720px) {
-  .columns {
-    grid-template-columns: 1fr;
+  .diagram {
+    display: block;
   }
 
-  .column + .column {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid var(--border);
-    padding-top: var(--usecase-gap);
-    margin-top: var(--usecase-gap);
+  .flowLabel {
+    margin: 0 0 var(--point-title-mb);
+    text-align: left;
+  }
+
+  .flowLabelTop {
+    margin-top: 0;
+  }
+
+  .flowLabelBottom {
+    margin-top: var(--point-label-gap);
+  }
+
+  .cell {
+    align-items: flex-start;
+    align-self: auto;
+    text-align: left;
+    padding: var(--point-title-mb) 0 var(--point-label-gap);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cell:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .line {
+    display: none;
   }
 }

@@ -9,9 +9,9 @@ export default function HeroSlide() {
       <h1>A recurring payment that lives in your wallet, not in anyone&apos;s promise</h1>
       <p className="lead">
         Set an amount, a recipient, and a schedule, once. Your wallet
-        authorizes every charge inside that rule, and nothing outside it,
-        even if the other side is compromised. Cancelling is always your
-        call, and it&apos;s immediate.
+        authorizes every charge inside those limits, and nothing outside
+        them, even if the other side is compromised. Cancelling is always
+        your call, and it&apos;s immediate.
       </p>
       <div className="row">
         <a className="btn" href="#waitlist">
