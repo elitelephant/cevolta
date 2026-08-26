@@ -4,7 +4,7 @@ Non-custodial recurring payments on Stellar ([cevolta.xyz](https://cevolta.xyz))
 
 ## Layout
 
-- `site/`: the only code, a small Turborepo (`site/package.json` + `site/turbo.json` at its own root, not the repo root) containing one app, `site/apps/web`, a Next.js landing page with an `/api/waitlist` route handler. TypeScript + ESLint configured; no test suite yet.
+- `site/`: the only code, a small Turborepo (`site/package.json` + `site/turbo.json` at its own root, not the repo root) containing one app, `site/apps/web`, a Next.js landing page with an `/api/waitlist` route handler and `/about`, `/contact`, `/privacy` pages. TypeScript + ESLint + Vitest configured (`npm test` from `site/`).
 - `CONTEXT.md`: domain glossary. Use its exact terms (Payee, Payer, Plan, Enrollment, Smart Wallet, Policy Signer, Payment Registry, Renewal Trigger); avoid the synonyms each entry lists.
 - `docs/adr/`: architecture decisions. `docs/research/`: long-form research notes.
 
@@ -21,6 +21,11 @@ Default canonical label vocabulary (`needs-triage`, `needs-info`, `ready-for-age
 ### Domain docs
 
 Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
+
+## Agent readiness
+
+- `middleware.ts` content-negotiates `Accept: text/markdown` to a rewritten `/api/markdown/[[...slug]]` route, which reads `content/markdown/<slug>.md` (or `index.md` for `/`). If you change a page's copy, update its markdown mirror in `content/markdown/` to match, or the two will drift.
+- `public/llms.txt`, `app/sitemap.ts`, and `app/robots.ts` are the other machine-readable surfaces. `app/layout.tsx` emits an Organization JSON-LD block (`lib/structuredData.ts`).
 
 ## Site & waitlist
 

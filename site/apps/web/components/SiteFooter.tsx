@@ -12,6 +12,12 @@ export default function SiteFooter() {
           </a>
           {" · "}
           <a href="#waitlist">Join the waitlist</a>
+          {" · "}
+          <a href="/about">About</a>
+          {" · "}
+          <a href="/contact">Contact</a>
+          {" · "}
+          <a href="/privacy">Privacy</a>
         </span>
       </div>
     </footer>

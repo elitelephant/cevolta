@@ -1,0 +1,29 @@
+.main {
+  max-width: var(--measure-lead);
+  margin: 0 auto;
+  padding: calc(var(--header-h) + 4rem) var(--pad-gutter) 5rem;
+}
+
+.title {
+  max-width: none;
+}
+
+.prose h2 {
+  font-size: var(--fs-h2);
+  max-width: none;
+  margin-top: 2.5rem;
+}
+
+.prose p,
+.prose ul {
+  color: var(--dim);
+  max-width: none;
+}
+
+.prose a {
+  color: var(--accent-strong);
+}
+
+.prose ul {
+  padding-left: 1.2rem;
+}
