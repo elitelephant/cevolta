@@ -1,9 +1,9 @@
 # Privacy
 
 This page describes what Cevolta's *website* collects. The Cevolta
-*protocol* — Payees, Payers, Plans, and Enrollments — is a separate,
-non-custodial system that never takes custody of anyone's funds; this
-page is only about the site you're reading right now.
+*protocol* is a separate, non-custodial system that never takes custody
+of anyone's funds; this page is only about the site you're reading right
+now.
 
 ## Waitlist
 

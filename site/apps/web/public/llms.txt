@@ -2,12 +2,14 @@
 
 > Non-custodial recurring-payments protocol being designed for Stellar. A Payer's own Smart Wallet authorizes each charge, not the Payee or the protocol. Pre-Testnet: only this landing page and its waitlist exist today.
 
-Cevolta lets a Payee (a business billing subscribers, or a person owed
-rent or a regular payment) define a Plan, and a Payer enroll in it from
-their own Soroban smart wallet. A Policy Signer inside that wallet
-authorizes only charges matching the Plan's amount, recipient, and
-cadence, nothing else, even if the Payee or the protocol is compromised.
-Cancelling is always the Payer's call and takes effect immediately.
+Cevolta lets a Payee (a business running subscription billing, or a
+person receiving rent or a regular payment) define a Plan, and a Payer
+enroll in it from their own Smart Wallet. A Policy Signer inside that
+Smart Wallet authorizes only charges matching the Plan's amount,
+recipient, and cadence, nothing else, even if the Payee or the protocol
+is compromised. Cancelling is always the Payer's call and takes effect
+immediately. See [CONTEXT.md](https://github.com/elitelephant/cevolta/blob/main/CONTEXT.md)
+for the exact terminology.
 
 ## When to use Cevolta
 

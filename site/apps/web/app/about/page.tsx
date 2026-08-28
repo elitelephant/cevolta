@@ -17,8 +17,7 @@ export default function AboutPage() {
     <ContentPage eyebrow="About" title="About Cevolta">
       <p>
         Cevolta is a non-custodial recurring-payments protocol being
-        designed for Stellar, using Soroban smart contracts. It&apos;s a
-        solo project, built in Chile.
+        designed for Stellar. It&apos;s a solo project, built in Chile.
       </p>
 
       <h2>The idea</h2>
@@ -26,27 +25,28 @@ export default function AboutPage() {
         Most recurring payments today &mdash; subscriptions, rent, sending
         money home &mdash; run on trust. A business asks for standing
         authorization over a card or account and hopes it&apos;s never
-        misused. Cevolta puts that authorization inside the payer&apos;s
-        own wallet instead.
+        misused. Cevolta puts that authorization inside your own wallet
+        instead.
       </p>
       <p>
-        A Payer enrolls in a Payee&apos;s Plan, and their wallet&apos;s
-        Policy Signer authorizes only charges matching that Plan&apos;s
-        amount, recipient, and cadence &mdash; nothing else, even if the
-        Payee or the protocol itself is compromised. Cancelling is always
-        the Payer&apos;s call, and it&apos;s immediate. See{" "}
+        You set an amount, a recipient, and a schedule, once, and your
+        wallet authorizes only charges matching those &mdash; nothing
+        else, even if the business on the other end is compromised.
+        Cancelling is always your call, and it&apos;s immediate. That&apos;s
+        the same promise as the homepage; for the exact mechanism and the
+        terms behind it, see{" "}
         <a href={`${GITHUB_URL}/blob/main/CONTEXT.md`} target="_blank" rel="noopener">
           CONTEXT.md
         </a>{" "}
-        in the GitHub repo for the full terminology and mechanism.
+        in the GitHub repo.
       </p>
 
       <h2>Current stage</h2>
       <p>
         Cevolta is pre-Testnet. Only this landing page and its waitlist
-        exist today &mdash; the Soroban contracts (Payment Registry, Smart
-        Wallet integration) haven&apos;t been written yet. This site
-        exists to collect a waitlist ahead of the first Testnet release.
+        exist today &mdash; the smart contracts that actually move money
+        haven&apos;t been written yet. This site exists to collect a
+        waitlist ahead of the first Testnet release.
       </p>
 
       <h2>Open source</h2>

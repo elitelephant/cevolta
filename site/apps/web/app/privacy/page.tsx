@@ -17,10 +17,9 @@ export default function PrivacyPage() {
     <ContentPage eyebrow="Privacy" title="Privacy">
       <p>
         This page describes what Cevolta&apos;s <em>website</em> collects.
-        The Cevolta <em>protocol</em> &mdash; Payees, Payers, Plans, and
-        Enrollments &mdash; is a separate, non-custodial system that never
-        takes custody of anyone&apos;s funds; this page is only about the
-        site you&apos;re reading right now.
+        The Cevolta <em>protocol</em> is a separate, non-custodial system
+        that never takes custody of anyone&apos;s funds; this page is only
+        about the site you&apos;re reading right now.
       </p>
 
       <h2>Waitlist</h2>
