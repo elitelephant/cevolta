@@ -33,6 +33,7 @@ Single-context: `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/do
 - `site/.vercel/` links to the Vercel project `cevolta`. Root Directory on Vercel is set to `site/apps/web`.
 - `POST /api/waitlist` appends emails to a single private Vercel Blob object (`waitlist.json`), read-modify-written per request. `GET /api/waitlist` dumps all entries and returns 401 unless the `x-admin-key` header matches `WAITLIST_ADMIN_KEY` (also 401 if unset).
 - Env vars live in Vercel, not the repo: `BLOB_READ_WRITE_TOKEN` (required by the API; `vercel env pull` writes `site/apps/web/.env.local`) and `WAITLIST_ADMIN_KEY`. Never commit tokens or `.env*.local`.
+- `app/layout.tsx` mounts `@vercel/analytics` and `@vercel/speed-insights` (cookieless, no config needed). `/privacy` documents this — keep the two in sync if either changes.
 
 ## Conventions
 

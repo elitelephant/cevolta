@@ -6,7 +6,7 @@ See the domain and architecture decisions in [`CONTEXT.md`](./CONTEXT.md) and [`
 
 ## Status
 
-Idea validated with a landing page. The Soroban contract (Payment Registry) and the Testnet-connected interfaces are under construction; see [`docs`](./docs).
+Idea validated with a landing page. The Soroban contract (Payment Registry) and the Testnet-connected interfaces are not started yet; see [`docs`](./docs).
 
 ## Structure
 
